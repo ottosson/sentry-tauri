@@ -18,14 +18,14 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.1",
-    "@sentry/browser": "^10.8.0",
-    "@sentry/core": "^10.8.0",
+    "@sentry/browser": "^10.46.0",
+    "@sentry/core": "^10.46.0",
     "rollup": "^4.50.0",
     "@rollup/plugin-terser": "^0.4.4",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "@tauri-apps/api": "2.0.0-beta.8",
+    "@tauri-apps/api": "^2",
     "tslib": "^2.6.0"
   }
 }
