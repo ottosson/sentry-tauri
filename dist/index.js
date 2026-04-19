@@ -48,8 +48,14 @@ export function sendBreadcrumbToRust(breadcrumb) {
 export const defaultOptions = {
     // We don't send from the browser but a DSN is required for the SDK to start
     dsn: 'https://123456@dummy.dsn/0',
-    // We want to track app sessions rather than browser sessions
-    integrations: (integrations) => integrations.filter((i) => i.name !== 'BrowserSession'),
+    // - BrowserSession: we track app sessions via the Rust SDK, not browser sessions
+    // - Dedupe: browserApiErrorsIntegration's wrapper stores the caught error as
+    //   _previousEvent for dedupe but its own capture never actually produces an
+    //   envelope (the capture is gated inside the wrapping context). Our
+    //   addEventListener safety net then tries to capture the same error, dedupe
+    //   matches against the phantom _previousEvent, and the event is dropped
+    //   silently. Removing Dedupe lets our safety-net captures through.
+    integrations: (integrations) => integrations.filter((i) => i.name !== 'BrowserSession' && i.name !== 'Dedupe'),
     transport: makeRendererTransport,
     beforeBreadcrumb: sendBreadcrumbToRust,
 };
